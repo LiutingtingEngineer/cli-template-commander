@@ -1,0 +1,26 @@
+{
+  "name": "cli-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "tke": "index.js"
+  },
+  "scripts": {
+    "test": "jest ./test --colors --coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.20.0",
+    "download-git-repo": "^3.0.2",
+    "inquirer": "^6.3.1",
+    "ora": "^5.1.2",
+    "shelljs": "^0.8.3"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1"
+  }
+}
