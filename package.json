@@ -1,11 +1,12 @@
 {
-  "name": "cli-template",
+  "name": "cli-template-commander",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "bin": {
     "tke": "index.js"
   },
+  "repository": "LiutingtingEngineer/cli-template-commander",
   "scripts": {
     "test": "jest ./test --colors --coverage"
   },
