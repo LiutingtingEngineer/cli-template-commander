@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const path = require('path');
 const tpath = path.resolve(process.cwd(),'./template.json');
