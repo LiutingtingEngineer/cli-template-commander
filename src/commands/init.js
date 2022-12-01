@@ -1,8 +1,11 @@
 const fs = require('fs');
+const path = require('path');
 const inquirer = require('inquirer'); // 命令行交互工具
 const chalk = require('chalk'); // 颜色显示工具
 const downloadGitRepo = require("download-git-repo"); // 下载git 仓库代码工具
 const ora = require("ora"); //加载工具
+const tpath = path.resolve(process.cwd(),'./template.json');
+let tlps = require(tpath);
 
 // node的 util 模块 promisify可以把回调promise化
 const { promisify } = require("util");
@@ -10,49 +13,33 @@ const download = promisify(downloadGitRepo)
 
  const init  = (program) => {
     program
-  .command('init')
-  .alias('i')
-  .description('初始化项目')
-  .action(option => {
-    console.log(option);
-    // 该对象用于存储所有与用户交互的数据
-    let config = {
-      // 假设我们需要用户自定义项目名称
-      projectName: option ? option : null,
-    };
-    // 使用chalk打印美化的版本信息
-    console.log(chalk.default.bold('hello v1.0.0'));
-
-    // 用于存储所有的交互步骤，例如让用户输入项目名称就是其中一个步骤
-    let promps = [];
-    if (config.projectName === null) {
-      promps.push({
-        type: 'input',
-        name: 'projectName',
-        message: '请输入项目名称',
-        validate: input => {
-          if (!input) {
-            return '项目名称不能为空';
-          }
-          // 更新对象中属性的数据
-          config.projectName = input;
-          return true;
-        }
-      });
-    }
-
-    // 至此，与用户的所有交互均已完成，answers是收集到的用户所填的所有数据
-    // 同时，这也是你开始操作的地方，这个cli工具的核心代码应该从这个地方开始
-    inquirer.prompt(promps).then(async (answers) => {
-      const repo = 'vuejs/awesome-vue'
-      const dir =  answers.projectName
-      const exist = fs.existsSync(dir)
-      if(exist){
-        console.log('路径已存在');
-        process.exit()
+    .command('init')
+    .description('init project')
+    .usage('<template-name> [project-name]')
+    .action(option => {
+      if(program.args.length < 1){
+        program.help();
+        return;
       }
-      clone(repo,dir)
-    });
+
+      let tName = program.args[1];
+      let pName = program.args[2];
+
+      // 校验输入的模板名称
+      if(tlps.filter(v => (v.name === tName)).length == 0){
+        console.log(chalk.red("模板名称不存在，请使用 tke list 命令查看可输入的模板"));
+        return
+      }
+      // 校验输入的项目名称 是否存在
+      if(!pName){
+        console.log(chalk.red('项目文件夹名称不能为空'));
+        return
+      }
+
+      let url = tlps.filter(v => (tName === v.name))[0].url;
+      console.log(chalk.yellow('开始创建项目'));
+
+      clone(url,pName)
   });
 }
 
