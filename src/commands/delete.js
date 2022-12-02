@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const path = require('path');
 const tpath = path.resolve(process.cwd(),'./template.json');
-let damiaoTlps = require(tpath); 
+let tlps = require(tpath); 
 const chalk = require('chalk');
 
 const deleteTpl = (program) => {
@@ -19,7 +19,7 @@ const deleteTpl = (program) => {
                     validate: (val) => {
                         if(val === ''){
                             return '模板名称不能为空';
-                        }else if(damiaoTlps.filter(v => v.name == val).length == 0){
+                        }else if(tlps.filter(v => v.name == val).length == 0){
                             return ' 当前要删除的模板不存在';
                         }else{
                             return true;
@@ -31,7 +31,7 @@ const deleteTpl = (program) => {
             inquirer
                 .prompt(questions).then(answers => {
                     let tplName = answers['tpl-name'];
-                    fs.writeFileSync(tpath,JSON.stringify(damiaoTlps.filter(v => (v.name !== tplName))));
+                    fs.writeFileSync(tpath,JSON.stringify(tlps.filter(v => (v.name !== tplName))));
                     console.log(chalk.green('删除成功'));
                 })
         })
