@@ -1,6 +1,6 @@
 {
   "name": "cli-template-commander",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -23,6 +23,6 @@
   },
   "devDependencies": {
     "jest": "^27.3.1",
-    "semantic-release": "^23.0.8"
+    "semantic-release": "^17.0.4"
   }
 }
